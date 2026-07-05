@@ -84,8 +84,9 @@ calibration status and surfaces what is due before it lapses.
 
 | ID | Standard / Code | Applies to |
 |---|---|---|
-| STD-001 | ISO/IEC 17025 (awareness) | Cal record fields must carry what an accredited-lab cert provides |
-| STD-002 | Internal Python style guide | All backend code |
+| STD-001 | gatehouse `STANDARDS.md` (day-0 engineering standards) | Whole project — DOC/CODE/TST/LOG requirements |
+| STD-002 | ISO/IEC 17025 (awareness) | Cal record fields must carry what an accredited-lab cert provides |
+| STD-003 | Internal Python style guide | All backend code |
 
 ## 8. Interfaces & Compatibility
 

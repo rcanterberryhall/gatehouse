@@ -87,8 +87,9 @@ depends on a later one.
 **Entry:** approved plans.
 
 **Do:** execute plans in order on an isolated branch or worktree. The first
-plan establishes the day-0 essentials — README, structured logging, type
-hints, unit tests with CI — these are never bolted on later. Findings that
+plan establishes the day-0 essentials per `STANDARDS.md` — README,
+docstrings and type hints with a type checker in CI, unit tests with CI,
+structured logging — these are never bolted on later. Findings that
 invalidate a plan flow back into the plan (pre-v0) or the issue tracker
 (post-v0); findings that invalidate the *design* send you back to Phase 2.
 
@@ -102,7 +103,8 @@ invalidate a plan flow back into the plan (pre-v0) or the issue tracker
 
 **Do:** walk the requirement tables (§4, §5) row by row and verify each
 *shall* by its declared method — Test, Demonstration, Inspection, or
-Analysis. Record the result against each ID. Document any *should*
+Analysis — including the day-0 standards cited in §7 (`STANDARDS.md`
+DOC/CODE/TST/LOG). Record the result against each ID. Document any *should*
 deviations. Then merge, tag if your team tags, and mark the sheet's status
 *Implemented*.
 

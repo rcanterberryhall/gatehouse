@@ -74,7 +74,8 @@ every exported report is complete and identical regardless of who exports it.
 
 | ID | Standard / Code | Applies to |
 |---|---|---|
-| STD-001 | QA-DOC-004 (house document standard) | Page layout, fonts, header/footer content |
+| STD-001 | gatehouse `STANDARDS.md` (day-0 engineering standards) | The new code — DOC/CODE/TST/LOG requirements |
+| STD-002 | QA-DOC-004 (house document standard) | Page layout, fonts, header/footer content |
 
 ## 8. Interfaces & Compatibility
 
