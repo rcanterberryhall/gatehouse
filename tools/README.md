@@ -23,6 +23,9 @@ It maintains:
   first line of its `__init__.py` docstring).
 
 Zero dependencies beyond the standard library (`ast` does the parsing).
+`test_gen_code_map.py` is its fixture test — also stdlib-only, run with
+`python tools/test_gen_code_map.py` — and gatehouse's own CI runs it along
+with a version-pinned ruff gate (practicing CODE-003).
 
 ### How it works
 

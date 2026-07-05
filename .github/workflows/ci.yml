@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # CODE-003: formatter/linter pinned to an exact version, both checks
+      # fail the build.
+      - name: Install ruff (pinned)
+        run: pip install ruff==0.15.12
+      - name: Lint
+        run: ruff check .
+      - name: Format check
+        run: ruff format --check .
+      # Fixture test for the vendorable code-map generator (stdlib-only).
+      - name: Generator fixture test
+        run: python tools/test_gen_code_map.py
