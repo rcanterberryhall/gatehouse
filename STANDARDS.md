@@ -29,6 +29,7 @@ hand-maintained docs do.
 | DOC-006 | Every source package (each directory with an `__init__.py` or language equivalent) shall carry a one-line docstring stating its role, and its own `README.md` with a short hand-written header: purpose, key concepts, how it relates to other packages, and common pitfalls. | I |
 | DOC-007 | Once the source tree has more than one package, the project shall maintain a **code map**: a top-level `docs/code_map.md` indexing every package and its role, and a per-package public-API section (signatures + docstring summaries) **auto-generated from the docstrings** into marker-delimited blocks of each package README. Docstrings are the single source; the map is derived, never hand-edited. | I |
 | DOC-008 | The code-map generator shall be enforced automatically: run on pre-commit to regenerate, and run in CI in check mode so that documentation drift fails the build. | D |
+| DOC-009 | Every ongoing project shall keep a changelog (e.g. a `CHANGELOG.md`) recording notable changes — features added, behavior changes, fixes — as they land, grouped under the version or tag they shipped in (VCS-003). It is updated in the same change set that makes the change, so the project's evolution is legible without reconstructing it from git history. | I |
 
 A vendorable reference implementation of DOC-007/008 for Python lives in
 [`tools/gen_code_map.py`](tools/gen_code_map.py) (stdlib-only), with adoption
