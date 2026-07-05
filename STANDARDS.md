@@ -9,6 +9,14 @@ They are "day-0" standards deliberately: each one is cheap on day 0 and
 expensive to bolt on later. The first implementation plan of any new project
 establishes all of them before feature work starts.
 
+A second purpose runs through the DOC clauses: **self-documenting structure
+makes the codebase efficient for both people and the AI assistant.** An
+assistant (or a new engineer) orients from the code map and package READMEs
+instead of scanning source files — cheaper, faster, and more accurate — and
+because the API maps are generated from docstrings and enforced in CI
+(DOC-007/008), that orientation layer cannot silently rot the way
+hand-maintained docs do.
+
 ## Documentation — DOC
 
 | ID | Requirement | Verify |
@@ -18,6 +26,9 @@ establishes all of them before feature work starts.
 | DOC-003 | Web/UI projects shall embed user-facing help in the UI itself (help page, tooltips, or inline text) — the README is for engineers, not users. | D |
 | DOC-004 | Documentation shall be factual and behavior-describing; no aspirational or rhetorical filler. Docs are written to stand alone, not as diffs against prior versions. | I |
 | DOC-005 | The README should stay current: any change that alters setup, configuration, or user-visible behavior updates it in the same change set. | I |
+| DOC-006 | Every source package (each directory with an `__init__.py` or language equivalent) shall carry a one-line docstring stating its role, and its own `README.md` with a short hand-written header: purpose, key concepts, how it relates to other packages, and common pitfalls. | I |
+| DOC-007 | Once the source tree has more than one package, the project shall maintain a **code map**: a top-level `docs/code_map.md` indexing every package and its role, and a per-package public-API section (signatures + docstring summaries) **auto-generated from the docstrings** into marker-delimited blocks of each package README. Docstrings are the single source; the map is derived, never hand-edited. | I |
+| DOC-008 | The code-map generator shall be enforced automatically: run on pre-commit to regenerate, and run in CI in check mode so that documentation drift fails the build. | D |
 
 ## Code quality — CODE
 

@@ -89,7 +89,9 @@ depends on a later one.
 **Do:** execute plans in order on an isolated branch or worktree. The first
 plan establishes the day-0 essentials per `STANDARDS.md` — README,
 docstrings and type hints with a type checker in CI, unit tests with CI,
-structured logging — these are never bolted on later. Findings that
+structured logging, and the self-documenting structure (per-package READMEs
++ auto-generated code map, enforced in CI) — these are never bolted on
+later. Findings that
 invalidate a plan flow back into the plan (pre-v0) or the issue tracker
 (post-v0); findings that invalidate the *design* send you back to Phase 2.
 
