@@ -5,7 +5,16 @@ Reference implementations for the self-documenting-structure standards
 
 ## `gen_code_map.py` — Python (working, tested)
 
-Maintains, from docstrings alone:
+### Why it exists
+
+STANDARDS.md DOC-007/008 require every project to keep an orientation
+layer — per-package API maps and a top-level package index — that is
+**derived from docstrings, never hand-edited, and enforced in CI** so it
+cannot drift from the code. This script is that mechanism as one vendorable
+file: docstrings are the single source of documentation truth; everything
+this script writes is a projection of them.
+
+It maintains:
 
 - a **Public API** section in each subpackage's `README.md` (signatures +
   docstring summaries, inside marker-delimited blocks — the hand-written
@@ -14,6 +23,40 @@ Maintains, from docstrings alone:
   first line of its `__init__.py` docstring).
 
 Zero dependencies beyond the standard library (`ast` does the parsing).
+
+### How it works
+
+Two phases: it reads and renders everything in memory first, and touches no
+file until that is complete.
+
+1. **Discover.** List the immediate subdirectories of `--src-root` that
+   contain an `__init__.py`, skipping `_`-prefixed names. Each is one
+   package; each gets one README.
+2. **Extract.** Statically parse every public module in each package with
+   the stdlib `ast` module — the code is **never imported or executed**, so
+   the script is safe to run on any tree and needs no project environment.
+   From the parse tree it collects public symbols (functions, classes and
+   their public members, annotated constants) with their signatures and
+   docstrings. `__all__`, when present, overrides the leading-underscore
+   rule and pulls in re-exports from private modules.
+3. **Render.** Compute the complete desired content of every target file
+   in memory: each package README with only its marker-delimited block
+   replaced (all hand-written text preserved byte-for-byte), and
+   `docs/code_map.md` with only its index table replaced.
+4. **Compare, then act** — the only step that depends on the mode:
+   - **default:** write each file whose current content differs from the
+     rendered content; identical files are left untouched (idempotent — a
+     second run is always a no-op).
+   - **`--check`:** write nothing; print a unified diff of every file that
+     differs and exit 1. Because check and write share the same rendered
+     desired-state from step 3, a clean `--check` guarantees regeneration
+     would change nothing — the two modes cannot disagree.
+   - **`--init`:** additionally create any missing README or code map from
+     the bootstrap template (`_TODO_` narrative header + filled API block).
+
+Exit codes: `0` clean/regenerated, `1` drift detected by `--check`, `2`
+configuration error (missing README without `--init`, or a damaged/missing
+marker pair — the script refuses to guess where a block belongs).
 
 ### Adopting it in a new project
 
