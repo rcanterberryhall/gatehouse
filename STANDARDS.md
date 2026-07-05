@@ -74,6 +74,7 @@ by **Inspection of the git history** rather than by a CI gate.
 | VCS-004 | Before any merge or commit intended for the default branch, the currently checked-out branch shall be confirmed (e.g. `git branch --show-current`) — a shared working root may be sitting on another task's branch. After the merge, the result shall be sanity-checked (the default branch's tree matches the merged tip) before it is relied on. | I |
 | VCS-005 | Independent or parallel work streams should be isolated in separate branches or worktrees, so unrelated changes never combine in one commit or an accidental merge. | I |
 | VCS-006 | When a feature is finished, its integration route — merge into the default branch, or open a pull request for review — shall be an explicit decision put to the engineer, never assumed. The branch is not silently merged. | I |
+| VCS-007 | Execution of a plan shall begin from a clean working tree. If uncommitted work is present when execution is about to start, it is surfaced to the engineer for direction (commit, stash, or discard) before any new work is written — new work never silently layers onto unrelated uncommitted changes. | I |
 
 ## How these enter a project
 
