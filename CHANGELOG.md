@@ -5,6 +5,8 @@ tags exist (per `STANDARDS.md` DOC-009 / VCS-003). Until then, by date.
 
 ## [Unreleased]
 
+## [0.1] - 2026-07-05
+
 ### Added
 - **Branch-hygiene standards family** (`STANDARDS.md` VCS-001…007): one feature
   branch per feature, no direct commits to the default branch, `--no-ff`
