@@ -30,6 +30,10 @@ hand-maintained docs do.
 | DOC-007 | Once the source tree has more than one package, the project shall maintain a **code map**: a top-level `docs/code_map.md` indexing every package and its role, and a per-package public-API section (signatures + docstring summaries) **auto-generated from the docstrings** into marker-delimited blocks of each package README. Docstrings are the single source; the map is derived, never hand-edited. | I |
 | DOC-008 | The code-map generator shall be enforced automatically: run on pre-commit to regenerate, and run in CI in check mode so that documentation drift fails the build. | D |
 
+A vendorable reference implementation of DOC-007/008 for Python lives in
+[`tools/gen_code_map.py`](tools/gen_code_map.py) (stdlib-only), with adoption
+steps and a theoretical C++ mapping in [`tools/README.md`](tools/README.md).
+
 ## Code quality — CODE
 
 | ID | Requirement | Verify |
