@@ -5,6 +5,11 @@ tags exist (per `STANDARDS.md` DOC-009 / VCS-003). Until then, by date.
 
 ## [Unreleased]
 
+### Added
+- **VCS-008** (`STANDARDS.md`): merged feature branches are retained as
+  history, not deleted — the branch ref is a permanent landmark of which
+  commits made up a feature.
+
 ## [0.1] - 2026-07-05
 
 ### Added

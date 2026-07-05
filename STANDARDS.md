@@ -76,6 +76,7 @@ by **Inspection of the git history** rather than by a CI gate.
 | VCS-005 | Independent or parallel work streams should be isolated in separate branches or worktrees, so unrelated changes never combine in one commit or an accidental merge. | I |
 | VCS-006 | When a feature is finished, its integration route — merge into the default branch, or open a pull request for review — shall be an explicit decision put to the engineer, never assumed. The branch is not silently merged. | I |
 | VCS-007 | Execution of a plan shall begin from a clean working tree. If uncommitted work is present when execution is about to start, it is surfaced to the engineer for direction (commit, stash, or discard) before any new work is written — new work never silently layers onto unrelated uncommitted changes. | I |
+| VCS-008 | Merged feature branches shall be retained as history, not deleted. The branch ref is a permanent, human-readable landmark of exactly which commits made up a feature; together with the `--no-ff` merge (VCS-002) and any milestone tag (VCS-003) it keeps the project's pedigree navigable. | I |
 
 ## How these enter a project
 
