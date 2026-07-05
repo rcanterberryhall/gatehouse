@@ -41,6 +41,7 @@ steps and a theoretical C++ mapping in [`tools/README.md`](tools/README.md).
 | CODE-001 | Code shall carry type hints (or the language's equivalent) from the first commit, with a type checker (e.g., mypy/pyright) running in CI. | I |
 | CODE-002 | Errors shall be captured and handled at system boundaries (API routes, file/network I/O, subprocess calls) — no silent excepts, no raw tracebacks to users. | I |
 | CODE-003 | Code shall be auto-formatted and linted from the first commit, with the tool **pinned to an exact version** and both checks run in CI so a violation fails the build (Python: ruff covers both roles). An unpinned formatter drifts between environments and buries real changes in reformat noise. | D |
+| CODE-004 | Each project shall declare the code-style standard for its language and follow it (Python: **PEP 8** for style, **PEP 257** for docstring conventions). The pinned toolchain (CODE-003) is the arbiter: where the formatter/linter and the written standard disagree, the tool's output wins — style questions are settled by the tool, never by review debate. | I |
 
 ## Testing — TST
 
