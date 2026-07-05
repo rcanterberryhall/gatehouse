@@ -59,6 +59,22 @@ steps and a theoretical C++ mapping in [`tools/README.md`](tools/README.md).
 | LOG-002 | Data-processing projects shall record provenance: what input produced each output, so any result can be traced back to its source. | I |
 | LOG-003 | Findings, errors, and warnings produced by processing should be captured as data (queryable records), not only as log lines. | I |
 
+## Version control & branch hygiene — VCS
+
+History is a verification artifact: Phase 5 traces a behavior back to the
+commit that introduced it, so the way branches and merges are kept directly
+governs how traceable the project is. These are standing practices, confirmed
+by **Inspection of the git history** rather than by a CI gate.
+
+| ID | Requirement | Verify |
+|---|---|---|
+| VCS-001 | Every feature shall be developed on its own dedicated branch (e.g. `feat/<topic>`) — one branch per feature; nothing is committed directly to the default branch. The default branch only ever advances by merge. | I |
+| VCS-002 | A branch shall merge back with `--no-ff`, so the slice stays an identifiable unit in history (a merge commit) rather than being flattened into the mainline. | I |
+| VCS-003 | Meaningful checkpoints — a feature merge, a milestone — should be marked with a lightweight `v0.x` tag so any behavior can be traced to when it entered. This is code pedigree, not release management: landmarks, not strict semver. | I |
+| VCS-004 | Before any merge or commit intended for the default branch, the currently checked-out branch shall be confirmed (e.g. `git branch --show-current`) — a shared working root may be sitting on another task's branch. After the merge, the result shall be sanity-checked (the default branch's tree matches the merged tip) before it is relied on. | I |
+| VCS-005 | Independent or parallel work streams should be isolated in separate branches or worktrees, so unrelated changes never combine in one commit or an accidental merge. | I |
+| VCS-006 | When a feature is finished, its integration route — merge into the default branch, or open a pull request for review — shall be an explicit decision put to the engineer, never assumed. The branch is not silently merged. | I |
+
 ## How these enter a project
 
 1. The intake sheet's **§7 Applicable Standards & Codes** cites this document
