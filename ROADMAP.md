@@ -86,7 +86,9 @@ depends on a later one.
 
 **Entry:** approved plans.
 
-**Do:** execute plans in order on an isolated branch or worktree. The first
+**Do:** execute plans in order on a dedicated feature branch or worktree —
+one branch per feature, never committing to the default branch directly
+(`STANDARDS.md` VCS). The first
 plan establishes the day-0 essentials per `STANDARDS.md` — README,
 docstrings and type hints with a type checker in CI, a version-pinned
 formatter/linter in CI, unit tests with CI, structured logging, and the
@@ -107,8 +109,10 @@ invalidate a plan flow back into the plan (pre-v0) or the issue tracker
 *shall* by its declared method — Test, Demonstration, Inspection, or
 Analysis — including the day-0 standards cited in §7 (`STANDARDS.md`
 DOC/CODE/TST/LOG). Record the result against each ID. Document any *should*
-deviations. Then merge, tag if your team tags, and mark the sheet's status
-*Implemented*.
+deviations. Then integrate — the route (merge into the default branch with
+`--no-ff`, or open a pull request for review) is an explicit choice made with
+the engineer, never assumed (`STANDARDS.md` VCS-006) — tag the merge point if
+your team tags, and mark the sheet's status *Implemented*.
 
 **Artifact:** verification record (a checked-off copy of the requirement
 tables is enough); merged code.
