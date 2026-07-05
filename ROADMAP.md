@@ -86,6 +86,17 @@ depends on a later one.
 
 **Entry:** approved plans.
 
+**Preflight, before writing any code:**
+- **Start clean.** If the working tree has uncommitted work when you begin
+  executing a plan, stop and get direction from the engineer — commit, stash,
+  or discard — rather than layering new work onto it (`STANDARDS.md` VCS-007).
+- **Check the plan for staleness.** A plan approved earlier can drift: confirm
+  it still matches the current design spec and the code as it *actually stands
+  now* before executing it. Intervening changes may have moved the files,
+  interfaces, or decisions it assumes. Reconcile any drift first — update the
+  plan (pre-v0) or route back to Phase 2/3 — so you never execute against a
+  stale map.
+
 **Do:** execute plans in order on a dedicated feature branch or worktree —
 one branch per feature, never committing to the default branch directly
 (`STANDARDS.md` VCS). The first
