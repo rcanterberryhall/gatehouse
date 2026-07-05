@@ -49,3 +49,7 @@ its depth on the genuinely open design questions. The IDs then give you
 traceability for free — every design decision, plan, and verification step
 points back at a numbered requirement, the same way commissioning paperwork
 traces back to a URS.
+
+## License
+
+[MIT](LICENSE) — copy the template, the process, and the tooling freely.
