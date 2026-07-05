@@ -40,6 +40,7 @@ steps and a theoretical C++ mapping in [`tools/README.md`](tools/README.md).
 |---|---|---|
 | CODE-001 | Code shall carry type hints (or the language's equivalent) from the first commit, with a type checker (e.g., mypy/pyright) running in CI. | I |
 | CODE-002 | Errors shall be captured and handled at system boundaries (API routes, file/network I/O, subprocess calls) — no silent excepts, no raw tracebacks to users. | I |
+| CODE-003 | Code shall be auto-formatted and linted from the first commit, with the tool **pinned to an exact version** and both checks run in CI so a violation fails the build (Python: ruff covers both roles). An unpinned formatter drifts between environments and buries real changes in reformat noise. | D |
 
 ## Testing — TST
 
@@ -63,6 +64,7 @@ steps and a theoretical C++ mapping in [`tools/README.md`](tools/README.md).
    by default. Delete the row only with a reason — that deletion is itself a
    documented *should*-deviation.
 2. **Phase 4** (ROADMAP.md): the first implementation plan establishes
-   DOC-001, CODE-001, TST-001, and LOG-001 before any feature work.
+   DOC-001, CODE-001, CODE-003, TST-001, and LOG-001 before any feature
+   work.
 3. **Phase 5**: these IDs are verified alongside the sheet's own
    requirements, by the method listed.

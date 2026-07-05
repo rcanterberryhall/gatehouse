@@ -16,7 +16,7 @@ verification, with the engineer at every gate.
 |---|---|
 | [`INTAKE-TEMPLATE.md`](INTAKE-TEMPLATE.md) | The requirements sheet. Copy this to start anything new. |
 | [`ROADMAP.md`](ROADMAP.md) | The six-phase process from idea to verified, merged code. |
-| [`STANDARDS.md`](STANDARDS.md) | Day-0 engineering standards every project inherits: README, docstrings + type hints, tests + CI, structured logging, and self-documenting structure (per-package READMEs + a docstring-generated code map, enforced in CI). |
+| [`STANDARDS.md`](STANDARDS.md) | Day-0 engineering standards every project inherits: README, docstrings + type hints, pinned format/lint gate, tests + CI, structured logging, and self-documenting structure (per-package READMEs + a docstring-generated code map, enforced in CI). |
 | [`examples/`](examples/) | Filled-out sheets — one New Project, one Feature. |
 | [`tools/`](tools/) | Reference implementation of the code-map generator (Python, stdlib-only) to vendor into new projects, plus a theoretical C++ mapping. |
 
