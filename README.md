@@ -19,6 +19,7 @@ verification, with the engineer at every gate.
 | [`STANDARDS.md`](STANDARDS.md) | Day-0 engineering standards every project inherits: README, docstrings + type hints, pinned format/lint gate, tests + CI, structured logging, and self-documenting structure (per-package READMEs + a docstring-generated code map, enforced in CI). |
 | [`examples/`](examples/) | Filled-out sheets — one New Project, one Feature. |
 | [`tools/`](tools/) | Reference implementation of the code-map generator (Python, stdlib-only) to vendor into new projects, plus a theoretical C++ mapping. |
+| [`skill/`](skill/) | Optional Claude Code skill: auto-finds the requirements sheet at project start and close-out, and holds the Phase-5 verification gate. |
 
 ## Quickstart
 
