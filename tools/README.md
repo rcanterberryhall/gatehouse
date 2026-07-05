@@ -118,3 +118,86 @@ would be:
 
 - `WidgetRecord parse_widget(std::string_view raw, bool strict = true)` — Parse one raw widget line into a record.
 ```
+
+## C# / .NET — design sketch (theoretical, no tooling shipped)
+
+The best-positioned language for this mechanism — the toolchain half-builds
+it for you. Untested here; treat as a starting point.
+
+| Python mechanism | .NET equivalent |
+|---|---|
+| Package (`__init__.py` directory) | Project (`.csproj`) or namespace within a solution |
+| Docstrings | XML doc comments (`/// <summary>...`) — parsed by the compiler itself |
+| Package one-liner (`__init__` docstring) | The project's `<Description>` property, or the `<summary>` on the namespace's anchor type |
+| Public API boundary (no `_` prefix / `__all__`) | The `public` keyword — explicit in the language |
+| `ast` (stdlib parser) | **The build output**: `<GenerateDocumentationFile>true</GenerateDocumentationFile>` makes every build emit an XML inventory of all documented public members with full signatures. Roslyn (Microsoft.CodeAnalysis) is the full parser if you outgrow it. |
+
+Two properties make .NET the easy case:
+
+1. **No parsing needed.** The compiler-generated XML doc file already *is*
+   the extracted API — a generator is a small transform of that XML into
+   the marker-block markdown, run after build.
+2. **Docstring enforcement is native.** Compiler warning **CS1591** fires
+   on any undocumented public member; with `<TreatWarningsAsErrors>`, the
+   equivalent of DOC-002 is enforced by compilation itself — no custom
+   check required.
+
+Illustrative source:
+
+```csharp
+namespace Acme.Alpha;
+
+/// <summary>Parse one raw widget line into a record.</summary>
+/// <param name="raw">The input line.</param>
+/// <param name="strict">Throw on malformed input when true.</param>
+public WidgetRecord ParseWidget(string raw, bool strict = true) { ... }
+```
+
+target output:
+
+```markdown
+### `Acme.Alpha`
+
+- `WidgetRecord ParseWidget(string raw, bool strict = true)` — Parse one raw widget line into a record.
+```
+
+## TypeScript — design sketch (theoretical, no tooling shipped)
+
+Strong fit for TypeScript; plain JavaScript is the weak case (no types,
+JSDoc optional and unverifiable — it works only as well as comment
+discipline holds). Untested here; treat as a starting point.
+
+| Python mechanism | TypeScript equivalent |
+|---|---|
+| Package (`__init__.py` directory) | Directory module with an `index.ts` barrel |
+| Docstrings | TSDoc comments (`/** ... */`) |
+| Package one-liner (`__init__` docstring) | `@packageDocumentation` comment block in `index.ts` |
+| Public API boundary (no `_` prefix / `__all__`) | `export` — and the barrel's re-exports play exactly the role of `__all__` |
+| `ast` (stdlib parser) | TypeScript compiler API (`ts.createProgram` + symbol walk) |
+| `--check` drift detection | **api-extractor** (Microsoft) does this natively: it emits an API report file you commit, and CI fails when the exported API drifts from the report — DOC-008 as an off-the-shelf tool |
+
+For **Angular/React** the unit shifts: the public API isn't a module of
+functions but a **component's contract** — `@Input()`/`@Output()` pairs in
+Angular, props in React, plus routes and injectable services. The map
+becomes a component index rather than a function map; Compodoc (Angular)
+and react-docgen (React) are the extractors. Same per-directory READMEs,
+same marker blocks, different extraction backend.
+
+Illustrative source:
+
+```typescript
+/**
+ * Parse one raw widget line into a record.
+ * @param raw - the input line
+ * @param strict - throw on malformed input when true
+ */
+export function parseWidget(raw: string, strict = true): WidgetRecord { ... }
+```
+
+target output:
+
+```markdown
+### `acme/alpha`
+
+- `parseWidget(raw: string, strict = true): WidgetRecord` — Parse one raw widget line into a record.
+```
