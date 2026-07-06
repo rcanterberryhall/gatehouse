@@ -60,6 +60,43 @@ steps and a theoretical C++ mapping in [`tools/README.md`](tools/README.md).
 | LOG-002 | Data-processing projects shall record provenance: what input produced each output, so any result can be traced back to its source. | I |
 | LOG-003 | Findings, errors, and warnings produced by processing should be captured as data (queryable records), not only as log lines. | I |
 
+## Containerization & portability — CTR
+
+A container image is built from a checkout, and a checkout is platform-specific.
+The most common way a working Linux image fails on someone else's machine is
+line-ending corruption: git's Windows default (`core.autocrlf=true`) rewrites
+text files to CRLF on checkout, and a shell script that reaches the container's
+kernel as `#!/bin/sh\r` cannot exec its interpreter — the ENTRYPOINT dies with
+exit code 255. This is cheap to prevent on day 0 (one committed file) and
+painful to diagnose after the fact.
+
+| ID | Requirement | Verify |
+|---|---|---|
+| CTR-001 | Any project that ships a container image shall commit a `.gitattributes` from its first Dockerfile that forces LF on every file executed inside the image — shell scripts (`*.sh`), the `Dockerfile`, and any entrypoint — so a Windows checkout cannot rewrite a script's shebang to `#!/bin/sh\r` and kill the ENTRYPOINT with exit code 255. A blanket `* text=auto eol=lf` default with explicit `eol=lf` on the exec-critical patterns satisfies this. | I |
+| CTR-002 | Vendored data, reference libraries, or test fixtures that intentionally ship with CRLF or mixed line endings shall be excluded from normalization (`-text` on their paths) so the line-ending policy never rewrites their bytes — which would otherwise dirty the working tree after a re-checkout and break byte-compared fixtures. | I |
+| CTR-003 | Binary assets (images, PDFs, office documents, archives, model files) shall be marked `binary` so no normalization can ever touch them, rather than relying solely on git's text/binary auto-detection. | I |
+
+A canonical `.gitattributes` satisfying CTR-001…003:
+
+```gitattributes
+* text=auto eol=lf
+
+*.sh            text eol=lf
+Dockerfile      text eol=lf
+*.dockerfile    text eol=lf
+
+*.png *.jpg *.pdf *.ico   binary
+
+# vendored/reference data that ships with CRLF on purpose:
+path/to/vendored/**       -text
+```
+
+Note for existing projects adopting this later: `.gitattributes` only governs
+future checkouts, so a working tree already checked out with CRLF will not fix
+itself. After committing the file, re-materialize once — `git rm --cached -r .`
+then `git reset --hard` — and rebuild the image with `--no-cache` so no layer
+cached from the CRLF copy survives.
+
 ## Version control & branch hygiene — VCS
 
 History is a verification artifact: Phase 5 traces a behavior back to the

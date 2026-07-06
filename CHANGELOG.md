@@ -6,6 +6,14 @@ tags exist (per `STANDARDS.md` DOC-009 / VCS-003). Until then, by date.
 ## [Unreleased]
 
 ### Added
+- **Containerization standards family** (`STANDARDS.md` CTR-001…003): any
+  project shipping a container image commits a `.gitattributes` from its first
+  Dockerfile forcing LF on exec-critical files (`*.sh`, `Dockerfile`,
+  entrypoints) so a Windows checkout can't corrupt a shebang to `#!/bin/sh\r`
+  and kill the ENTRYPOINT with exit 255; vendored CRLF data/fixtures are
+  excluded with `-text`, and binary assets are marked `binary`. Includes a
+  canonical file and the re-materialize note for late adopters. Intake §7 note
+  updated to list containerization among the day-0 families.
 - **VCS-008** (`STANDARDS.md`): merged feature branches are retained as
   history, not deleted — the branch ref is a permanent landmark of which
   commits made up a feature.
