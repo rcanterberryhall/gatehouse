@@ -106,8 +106,8 @@ environment ("The host will remain air-gapped"). -->
 <!-- Anything the work must comply with or align to: regulatory standards,
 industry codes, internal coding standards, style guides, security policies.
 Cite the clause/section where it matters. STD-001 is pre-filled: the
-gatehouse day-0 standards (documentation, type hints, tests/CI, logging)
-apply to every project by default — remove the row only with a documented
+gatehouse day-0 standards (documentation, type hints, tests/CI, logging,
+containerization) apply to every project by default — remove the row only with a documented
 reason. -->
 
 | ID | Standard / Code | Applies to |
