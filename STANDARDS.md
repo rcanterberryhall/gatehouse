@@ -74,7 +74,7 @@ painful to diagnose after the fact.
 |---|---|---|
 | CTR-001 | Any project that ships a container image shall commit a `.gitattributes` from its first Dockerfile that forces LF on every file executed inside the image — shell scripts (`*.sh`), the `Dockerfile`, and any entrypoint — so a Windows checkout cannot rewrite a script's shebang to `#!/bin/sh\r` and kill the ENTRYPOINT with exit code 255. A blanket `* text=auto eol=lf` default with explicit `eol=lf` on the exec-critical patterns satisfies this. | I |
 | CTR-002 | Vendored data, reference libraries, or test fixtures that intentionally ship with CRLF or mixed line endings shall be excluded from normalization (`-text` on their paths) so the line-ending policy never rewrites their bytes — which would otherwise dirty the working tree after a re-checkout and break byte-compared fixtures. | I |
-| CTR-003 | Binary assets (images, PDFs, office documents, archives, model files) shall be marked `binary` so no normalization can ever touch them, rather than relying solely on git's text/binary auto-detection. | I |
+| CTR-003 | Binary assets (images, PDFs, office documents, archives, model files) shall be marked `binary` so no normalization can ever touch them, rather than relying solely on git's text/binary auto-detection. Verified by running `git check-attr binary -- <sample of each type>` and confirming every one reports `binary: set` — **not** by reading the `.gitattributes` file, which can look correct while git has rejected the line (see below). | I |
 
 A canonical `.gitattributes` satisfying CTR-001…003:
 
@@ -85,11 +85,45 @@ A canonical `.gitattributes` satisfying CTR-001…003:
 Dockerfile      text eol=lf
 *.dockerfile    text eol=lf
 
-*.png *.jpg *.pdf *.ico   binary
+# One pattern per line. Git reads only the first whitespace-separated token
+# on a line as the pattern and every token after it as an attribute name, so
+# a multi-pattern line like `*.png *.jpg *.pdf binary` is rejected whole —
+# see the note below.
+*.png                     binary
+*.jpg                     binary
+*.jpeg                    binary
+*.gif                     binary
+*.pdf                     binary
+*.ico                     binary
+*.woff2                   binary
 
 # vendored/reference data that ships with CRLF on purpose:
 path/to/vendored/**       -text
 ```
+
+**One pattern per line — a multi-pattern line silently protects nothing.**
+Git treats only the first token as the pattern and the rest as attribute
+names, so `*.png *.jpg *.pdf *.ico   binary` makes `*.jpg`, `*.pdf`, and
+`*.ico` *attribute names* applied to the pattern `*.png`. Because those names
+are invalid, git rejects the line entirely: **every one of the four types,
+including PNG, comes back `unspecified`.** The only signal is a warning
+printed during `git add`/`git status`:
+
+```
+*.jpg is not a valid attribute name: .gitattributes:3
+```
+
+Verify rather than assume — the attributes are only real if git says so:
+
+```bash
+$ git check-attr binary -- a.png a.jpg a.pdf a.ico
+a.png: binary: set
+a.jpg: binary: set
+a.pdf: binary: set
+a.ico: binary: set
+```
+
+Any `unspecified` in that output means CTR-003 is unmet for that type.
 
 Note for existing projects adopting this later: `.gitattributes` only governs
 future checkouts, so a working tree already checked out with CRLF will not fix
