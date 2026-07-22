@@ -5,6 +5,18 @@ tags exist (per `STANDARDS.md` DOC-009 / VCS-003). Until then, by date.
 
 ## [Unreleased]
 
+### Fixed
+- **CTR-003's canonical `.gitattributes` was invalid git syntax and protected
+  nothing.** The example printed `*.png *.jpg *.pdf *.ico   binary` on one
+  line; git reads only the first token as the pattern and the rest as
+  attribute names, and because `*.jpg`/`*.pdf`/`*.ico` are not valid attribute
+  names it rejects the whole line — so **all four types, PNG included, came
+  back `unspecified`**. The only signal was a `not a valid attribute name`
+  warning during `git add`. Now one pattern per line, with the failure mode
+  documented and a `git check-attr` verification step. CTR-003's Verify column
+  now says to run `check-attr` rather than read the file, since a file that
+  looks correct is exactly how this passed inspection.
+
 ### Added
 - **Containerization standards family** (`STANDARDS.md` CTR-001…003): any
   project shipping a container image commits a `.gitattributes` from its first
